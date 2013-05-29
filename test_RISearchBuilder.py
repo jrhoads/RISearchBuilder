@@ -1,4 +1,4 @@
-from RISearchBuilder import RISearchBuilder
+from riSearchBuilder import RISearchBuilder
 
 ri = RISearchBuilder()
 ri.and_clause("$item <fedora-rels-ext:%s> <info:fedora/%s>" % ("isMemberOf", "bdr:2559"))
