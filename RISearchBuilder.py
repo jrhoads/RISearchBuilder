@@ -1,19 +1,19 @@
-import requests
 import re
 
 class RISearchBuilder(object):
 
     def __init__(self):
         """RISearcher initializer"""
-        self.select_parameters=set()
-        self.and_clauses=set()
-        self.or_clauses=set()
-        self._order_by=None
+        super(RISearchBuilder, self).__init__()
+        self.select_parameters = set()
+        self.and_clauses = set()
+        self.or_clauses = set()
+        self._order_by = None
 
     def serialize(self, joiner=" "):
         """Print out the select statement"""
         stringList = []
-        stringList.append("select %s" % self.all_selects() )
+        stringList.append("select %s" % self.all_selects())
         stringList.append("from <#ri>")
         stringList.append("where")
         if self.and_clauses:
@@ -29,19 +29,18 @@ class RISearchBuilder(object):
 
     def all_clauses(self):
         return " ".join(self.and_clauses | self.or_clauses)
-    
+
     def all_selects(self):
         regex = re.compile("(\$\w+)")
-        #print set(self.all_clauses().split(" "))
-        #print self.all_clauses_tokens()
         return " ".join(regex.findall(self.all_clauses_tokens()))
 
     def all_ands(self):
         return " and ".join(self.and_clauses)
+
     def all_ors(self):
-        temp_ors=""
+        temp_ors = ""
         if self.or_clauses:
-            temp_ors =" or ".join(self.or_clauses)
+            temp_ors = " or ".join(self.or_clauses)
             if self.and_clauses:
                 temp_ors = "or " + temp_ors
         return temp_ors
