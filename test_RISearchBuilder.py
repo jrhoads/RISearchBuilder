@@ -12,3 +12,8 @@ ri2.and_clause( RITriple("$item", "<fedora-rels-ext:%s>" % "isAnnotationOf", "<i
 ri2.and_clause("$item <bul-rel:hasPagination> $page" ). \
         order_by("$monkey")
 print ri2.serialize("\n")
+
+myClause = RITriple("$item", "<fedora-rels-ext:%s>" % "isMemberOf", "<info:fedora/%s>" % "bdr:2222")
+
+ri3 = RISearchBuilder([myClause]).order_by("$item")
+print ri3.serialize("\n")

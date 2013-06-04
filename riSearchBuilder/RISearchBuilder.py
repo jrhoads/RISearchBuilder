@@ -8,11 +8,11 @@ class RITriple(namedtuple('RITripple','subject predicate object')):
 
 class RISearchBuilder(object):
 
-    def __init__(self):
+    def __init__(self, and_clauses = [], or_clauses=[]):
         """RISearcher initializer"""
         super(RISearchBuilder, self).__init__()
-        self._and_clauses = set()
-        self._or_clauses = set()
+        self._and_clauses = set(and_clauses)
+        self._or_clauses = set(or_clauses)
         self._order_by = None
 
     def and_clause(self, clause):
