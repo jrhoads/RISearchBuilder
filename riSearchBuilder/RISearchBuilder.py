@@ -1,4 +1,10 @@
 import re
+from collections import namedtuple
+
+class RITriple(namedtuple('RITripple','subject predicate object')):
+
+    def __str__(self):
+        return "%s %s %s" % (self.subject, self.predicate, self.object)
 
 class RISearchBuilder(object):
 
@@ -36,7 +42,7 @@ class RISearchBuilder(object):
             stringList.append(self._all_ands())
         if self._or_clauses:
             stringList.append(self._all_ors())
-        if self._get_order_by():
+        if self._get_order_by() and self._get_order_by() in self._all_selects().split(" "):
             stringList.append("order by %s" % self._get_order_by())
         return joiner.join(stringList)
 
@@ -44,19 +50,19 @@ class RISearchBuilder(object):
         return " ".join(set(self._all_clauses().split(' ')))
 
     def _all_clauses(self):
-        return " ".join(self._and_clauses | self._or_clauses)
+        return " ".join(map(str, self._and_clauses | self._or_clauses))
 
     def _all_selects(self):
         regex = re.compile("(\$\w+)")
         return " ".join(regex.findall(self._all_clauses_tokens()))
 
     def _all_ands(self):
-        return " and ".join(self._and_clauses)
+        return " and ".join(map(str,self._and_clauses))
 
     def _all_ors(self):
         temp_ors = ""
         if self._or_clauses:
-            temp_ors = " or ".join(self._or_clauses)
+            temp_ors = " or ".join(map(str, self._or_clauses))
             if self._and_clauses:
                 temp_ors = "or " + temp_ors
         return temp_ors

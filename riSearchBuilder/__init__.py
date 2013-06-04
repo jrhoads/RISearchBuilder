@@ -1,1 +1,1 @@
-from .RISearchBuilder import RISearchBuilder
+from .RISearchBuilder import RISearchBuilder,RITriple 
